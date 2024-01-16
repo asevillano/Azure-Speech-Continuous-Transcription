@@ -6,4 +6,4 @@ Edit the file .env with your data:
 - AZURE_OPENAI_ENDPOINT=<YOUR-AZURE-OPENAI-ENDPOINT>
 - AZURE_OPENAI_DEPLOYMENT_NAME=<YOUR-AZURE-OPENAI-DEPLOYMENT-NAME>
 
-Run the app with the command: python continous-transcribe.py
+Run the app with the command: python continuous-transcription.py
