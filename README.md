@@ -1,4 +1,9 @@
 # Azure-AI-Services
+
+Install Azure Speech package: pip install azure-cognitiveservices-speech
+
+Install Azure OpenAI package: pip install openai
+
 Edit the file .env with your data:
 - SPEECH_KEY=<YOUR-SPEECH-APY-KEY>
 - SPEECH_REGION=<YOUR-SPEECH-SERVICE-REGION>

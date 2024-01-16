@@ -1,9 +1,12 @@
 from dotenv import load_dotenv
-from datetime import datetime
 import os
+import time
 
-# Import namespaces
+# Import Speech library
 import azure.cognitiveservices.speech as speech_sdk
+
+# Import OpenAI library
+from openai import AzureOpenAI
 
 def main():
     try:
@@ -39,7 +42,6 @@ def main():
 
      
 def speech_recognize_continuous():
-    import time
     
     # Performs continuous speech recognition from microphone
     audio_config = speech_sdk.AudioConfig(use_default_microphone=True)
@@ -58,6 +60,9 @@ def speech_recognize_continuous():
     def speech_recognizer_session_stopped_cb(evt: speech_sdk.SessionEventArgs):
         print('SessionStopped event')
 
+    def speech_recognizer_recognizing_cb(evt: speech_sdk.SpeechRecognitionEventArgs):
+        print('Transcribing: ' + evt.result.text)
+
     def speech_recognizer_transcribed_cb(evt: speech_sdk.SpeechRecognitionEventArgs):
         print('TRANSCRIBED:')
         if evt.result.reason == speech_sdk.ResultReason.RecognizedSpeech:
@@ -70,6 +75,7 @@ def speech_recognize_continuous():
         print('SessionStarted event')
 
     # Connect callbacks to the events fired by the speech recognizer
+    # speech_recognizer.recognizing.connect(speech_recognizer_recognizing_cb)
     speech_recognizer.recognized.connect(speech_recognizer_transcribed_cb)
     all_results = []
     def handle_final_result(evt):
@@ -92,12 +98,9 @@ def speech_recognize_continuous():
     return all_results
 
 def openai_functions(text):
-    # Add OpenAI library
-    import os
-    from openai import AzureOpenAI
-    from dotenv import load_dotenv
 
     try:
+		# Load OpenAI variables
         load_dotenv()
         my_api_key=os.getenv("AZURE_OPENAI_KEY")
         my_azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
